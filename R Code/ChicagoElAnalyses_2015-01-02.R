@@ -30,9 +30,6 @@ library("dplyr")
 ##    API DATA    ##
 ####################
 
-library("RCurl")
-library("jsonlite")
-
 ##### store all pages in a list first
 baseurl <- "https://data.cityofchicago.org/resource/5neh-572f.json"
 pages <- list()
@@ -88,12 +85,12 @@ table(L.api$date, L.api$stationname)
 ##    CSV DATA    ##
 ####################
 
-##### read-in data from .csv file
-# laptop
- L.csv <- read.csv("/Users/mdturse/Google Drive/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
-# lavoro
-# L.csv <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
+##### read-in data from .csv file from GitHub
+x <- getURL("https://raw.github.com/supermdat/Chicago_El_Rides/Data/Raw Data/ChicagoWeather(2015-01-06).csv")
+L.csv <- read.csv(x)
 
+urlfile <- 'https://raw.github.com/supermdat/Chicago_El_Rides/Data/Raw Data/ChicagoWeather(2015-01-06).csv'
+L.csv <- read.csv(urlfile)
 
 str(L.csv)
 head(L.csv)
