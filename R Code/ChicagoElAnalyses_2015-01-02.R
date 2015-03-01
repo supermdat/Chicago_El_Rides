@@ -86,11 +86,8 @@ table(L.api$date, L.api$stationname)
 ####################
 
 ##### read-in data from .csv file from GitHub
-x <- getURL("https://raw.github.com/supermdat/Chicago_El_Rides/Data/Raw Data/ChicagoWeather(2015-01-06).csv")
-L.csv <- read.csv(x)
-
-urlfile <- 'https://raw.github.com/supermdat/Chicago_El_Rides/Data/Raw Data/ChicagoWeather(2015-01-06).csv'
-L.csv <- read.csv(urlfile)
+x <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/ChicagoWeather(2015-01-06).csv")
+L.csv <- read.csv(text = x)
 
 str(L.csv)
 head(L.csv)
@@ -149,11 +146,9 @@ load("L.csv.Rdata")
 ####################
 
 
-##### read in data from .csv file
-# laptop
- Weather <- read.csv("/Users/mdturse/Google Drive/TimeSeries/ChicagoWeather(2015-01-06).csv")
-# lavoro
-# Weather <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/ChicagoWeather(2015-01-06).csv")
+##### read-in data from .csv file from GitHub
+y <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
+Weather <- read.csv(text = y)
 
 
 str(Weather)
@@ -308,6 +303,8 @@ summary(CompleteData_Select)
 
 save(CompleteData_Select, file = "CompleteData_Select.Rdata")
 load("CompleteData_Select.Rdata")
+
+write.csv(CompleteData_Select, "/Users/mdturse/Desktop/Chicago_El_Rides/Data/Raw Data/CompleteData_Select.csv")
 
 
 
