@@ -21,6 +21,7 @@ library("stringr")
 library("reshape2")
 library("tseries")
 library("forecast")
+library("plyr")
 library("dplyr")
 
 
@@ -29,6 +30,9 @@ library("dplyr")
 ##   Chicago "L"  
 ##    API DATA    ##
 ####################
+
+library("RCurl")
+library("jsonlite")
 
 ##### store all pages in a list first
 baseurl <- "https://data.cityofchicago.org/resource/5neh-572f.json"
@@ -85,9 +89,12 @@ table(L.api$date, L.api$stationname)
 ##    CSV DATA    ##
 ####################
 
-##### read-in data from .csv file from GitHub
-x <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/ChicagoWeather(2015-01-06).csv")
-L.csv <- read.csv(text = x)
+##### read-in data from .csv file
+# laptop
+ L.csv <- read.csv("/Users/mdturse/Google Drive/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
+# lavoro
+# L.csv <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
+
 
 str(L.csv)
 head(L.csv)
@@ -146,9 +153,11 @@ load("L.csv.Rdata")
 ####################
 
 
-##### read-in data from .csv file from GitHub
-y <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
-Weather <- read.csv(text = y)
+##### read in data from .csv file
+# laptop
+ Weather <- read.csv("/Users/mdturse/Google Drive/TimeSeries/ChicagoWeather(2015-01-06).csv")
+# lavoro
+# Weather <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/ChicagoWeather(2015-01-06).csv")
 
 
 str(Weather)
@@ -303,8 +312,6 @@ summary(CompleteData_Select)
 
 save(CompleteData_Select, file = "CompleteData_Select.Rdata")
 load("CompleteData_Select.Rdata")
-
-write.csv(CompleteData_Select, "/Users/mdturse/Desktop/Chicago_El_Rides/Data/Raw Data/CompleteData_Select.csv")
 
 
 
@@ -700,6 +707,13 @@ summary(step_NORM)
 step_NORM$anova
 
 
+##### QQ Plot of Residuals
+qqnorm(residuals(step_NORM)
+       )
+qqline(residuals(step_NORM)
+       )
+
+
 ##### Predictions TRAIN
 step_NORM.predictions <- predict(step_NORM, TrainingData2)
 save(step_NORM.predictions, file = "step_NORM.predictions.Rdata")
@@ -725,6 +739,13 @@ load("step_LOG.Rdata")
 
 summary(step_LOG)
 step_LOG$anova
+
+
+##### QQ Plot of Residuals
+qqnorm(residuals(step_LOG)
+       )
+qqline(residuals(step_LOG)
+       )
 
 
 ##### Predictions TRAINING
@@ -2211,19 +2232,26 @@ load("step_NORM_lmtd.predictions.Test.Rdata")
 
 
 ##### Testing Residuals Against Independent Varialbes
-plot(TrainingData2$stationname,residuals(fit_NORM_lmtd),xlab="StationName")
-plot(TrainingData2$dayname,residuals(fit_NORM_lmtd),xlab="DayName")
-plot(TrainingData2$Holiday,residuals(fit_NORM_lmtd),xlab="Holiday")
-plot(TrainingData2$date,residuals(fit_NORM_lmtd),xlab="Date")
-plot(TrainingData2$date_year,residuals(fit_NORM_lmtd),xlab="DateYear")
-plot(TrainingData2$date_month,residuals(fit_NORM_lmtd),xlab="DateMonth")
-plot(TrainingData2$AvgDayTempOBS_F,residuals(fit_NORM_lmtd),xlab="AvgDayTempOBS_F")
+plot(TrainingData2$stationname, residuals(fit_NORM_lmtd), xlab="StationName")
+plot(TrainingData2$dayname, residuals(fit_NORM_lmtd), xlab="DayName")
+plot(TrainingData2$Holiday, residuals(fit_NORM_lmtd), xlab="Holiday")
+plot(TrainingData2$date, residuals(fit_NORM_lmtd), xlab="Date")
+plot(TrainingData2$date_year, residuals(fit_NORM_lmtd), xlab="DateYear")
+plot(TrainingData2$date_month, residuals(fit_NORM_lmtd), xlab="DateMonth")
+plot(TrainingData2$AvgDayTempOBS_F, residuals(fit_NORM_lmtd), xlab="AvgDayTempOBS_F")
 
 
 ##### Testing Residuals Against Fitted Values
 plot(fitted(fit_NORM_lmtd), residuals(fit_NORM_lmtd), xlab="Predicted scores", 
      ylab="Residuals"
      )
+
+
+##### Testing Normality of Residuals
+qqnorm(residuals(fit_NORM_lmtd)
+       )
+qqline(residuals(fit_NORM_lmtd)
+       )
 
 
 
@@ -2258,9 +2286,34 @@ load("step_NORM_lmtd_NoDate.predictions.Rdata")
 
 ##### Predictions TEST
 step_NORM_lmtd_NoDate.predictions.Test <- predict(step_NORM_lmtd_NoDate, TestData2)
-save(step_NORM_lmtd_NoDate.predictions.Test, file = "step_NORM_lmtd_NoDate.predictions.Test.Rdata")
+save(step_NORM_lmtd_NoDate.predictions.Test, 
+     file = "step_NORM_lmtd_NoDate.predictions.Test.Rdata"
+     )
 load("step_NORM_lmtd_NoDate.predictions.Test.Rdata")
 
+
+##### Testing Residuals Against Independent Varialbes
+plot(TrainingData2$stationname, residuals(fit_NORM_lmtd_NoDate), xlab="StationName")
+plot(TrainingData2$dayname, residuals(fit_NORM_lmtd_NoDate), xlab="DayName")
+plot(TrainingData2$Holiday, residuals(fit_NORM_lmtd_NoDate), xlab="Holiday")
+plot(TrainingData2$date_year, residuals(fit_NORM_lmtd_NoDate), xlab="DateYear")
+plot(TrainingData2$date_month, residuals(fit_NORM_lmtd_NoDate), xlab="DateMonth")
+plot(TrainingData2$AvgDayTempOBS_F, residuals(fit_NORM_lmtd_NoDate), 
+     xlab="AvgDayTempOBS_F"
+     )
+
+
+##### Testing Residuals Against Fitted Values
+plot(fitted(fit_NORM_lmtd_NoDate), residuals(fit_NORM_lmtd_NoDate), 
+     xlab="Predicted scores", ylab="Residuals"
+     )
+
+
+##### Testing Normality of Residuals
+qqnorm(residuals(fit_NORM_lmtd_NoDate)
+       )
+qqline(residuals(fit_NORM_lmtd_NoDate)
+       )
 
 
 
