@@ -27,7 +27,7 @@ library("dplyr")
 
 
 ####################
-##   Chicago "L"  
+##   Chicago "L"  ##
 ##    API DATA    ##
 ####################
 
@@ -56,8 +56,6 @@ for(i in 0:13){
 
 
 ##### combine all into one 
-library("plyr")
-library("dplyr")
 L.api <- rbind.fill(pages)
 
 
@@ -71,7 +69,8 @@ tail(L.api)
 
 
 ##### convert date from "Epoc" to conventional date
-L.api$date <- as.Date(as.POSIXct(L.api$date, origin="1970-01-01"))
+L.api$date <- as.Date(as.POSIXct(L.api$date, origin="1970-01-01")
+                      )
 
 str(L.api)
 head(arrange(L.api, date, stationname), 100)
@@ -82,6 +81,8 @@ tail(arrange(L.api, date, stationname), 100)
 table(L.api$date, L.api$stationname)
 
 ########## No Unique RowId in API data, so duplicates show up  -->  Try CVS Data
+########## No Unique RowId in API data, so duplicates show up  -->  Try CVS Data
+########## No Unique RowId in API data, so duplicates show up  -->  Try CVS Data
 
 
 ####################
@@ -89,12 +90,9 @@ table(L.api$date, L.api$stationname)
 ##    CSV DATA    ##
 ####################
 
-##### read-in data from .csv file
-# laptop
- L.csv <- read.csv("/Users/mdturse/Google Drive/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
-# lavoro
-# L.csv <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
-
+##### read-in data from .csv file from GitHub
+El <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/CTA_-_Ridership_-__L__Station_Entries_-_Daily_Totals.csv")
+L.csv <- read.csv(text = El)
 
 str(L.csv)
 head(L.csv)
@@ -152,13 +150,9 @@ load("L.csv.Rdata")
 ##  Weather Data  ##
 ####################
 
-
-##### read in data from .csv file
-# laptop
- Weather <- read.csv("/Users/mdturse/Google Drive/TimeSeries/ChicagoWeather(2015-01-06).csv")
-# lavoro
-# Weather <- read.csv("I:/TSI Technology/Business Intelligence/Smart Drive Team/Daniel Turse/Studying/studi/TimeSeries/ChicagoWeather(2015-01-06).csv")
-
+##### read-in data from .csv file from GitHub
+Wthr <- getURL("https://raw.githubusercontent.com/supermdat/Chicago_El_Rides/master/Data/Raw%20Data/ChicagoWeather(2015-01-06).csv")
+Weather <- read.csv(text = Wthr)
 
 str(Weather)
 head(Weather)
@@ -274,6 +268,7 @@ nrow(is.na(DailyWeather$AvgDaySNOW_Inch))
 for (name in colnames(DailyWeather)) {
   testing <- paste(1:length(colnames(DailyWeather)), nrow(is.na(name)), sep=":")
 }
+testing
 
 save(DailyWeather, file = "DailyWeather.Rdata")
 load("DailyWeather.Rdata")
