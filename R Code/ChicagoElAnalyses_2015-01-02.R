@@ -168,7 +168,7 @@ Weather$TOBS2 <- ifelse((Weather$TOBS==-9999 & Weather$TMAX==-9999 & Weather$TMI
                          Weather$TMAX,
                  ifelse((Weather$TOBS==-9999 & Weather$TMAX!=-9999 & Weather$TMIN!=-9999), 
                          ((Weather$TMAX + Weather$TMIN) / 2), 
-                         Weather$TOBS))))
+                        Weather$TOBS))))
 
 
 ##### fill in -9999 in TMAX (using TOBS, TMIN, or average of TOBS and TMIN)
@@ -405,9 +405,9 @@ ggQQ <- function(TrainingData2) # argument: a linear model
   slope <- diff(y)/diff(x)
   int   <- y[1L] - slope * x[1L]
   p     <- ggplot(TrainingData2, aes(sample=rides)) + 
-    stat_qq(alpha = 0.5) +
-    geom_abline(slope = slope, intercept = int, color="red") + 
-    ggtitle(expression(atop("QQ Plot for L Rides")))
+           stat_qq(alpha = 0.5) +
+           geom_abline(slope = slope, intercept = int, color="red") + 
+           ggtitle(expression(atop("QQ Plot for L Rides")))
   
   return(p)
 }
@@ -487,9 +487,9 @@ ggQQ <- function(TrainingData2_LOG) # argument: a linear model
   slope <- diff(y)/diff(x)
   int   <- y[1L] - slope * x[1L]
   p     <- ggplot(TrainingData2_LOG, aes(sample=ridesLOG)) + 
-    stat_qq(alpha = 0.5) +
-    geom_abline(slope = slope, intercept = int, color="red") + 
-    ggtitle(expression(atop("QQ Plot for L Rides (logged)")))
+           stat_qq(alpha = 0.5) +
+           geom_abline(slope = slope, intercept = int, color="red") + 
+           ggtitle(expression(atop("QQ Plot for L Rides (logged)")))
   
   return(p)
 }
