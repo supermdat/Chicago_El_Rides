@@ -6,7 +6,6 @@ rm(list=ls())
 
 library("RCurl")
 library("jsonlite")
-library("plyr")
 library("lubridate")
 library("psych")
 library("magrittr")
