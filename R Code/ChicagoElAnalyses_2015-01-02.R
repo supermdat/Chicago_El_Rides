@@ -392,9 +392,9 @@ g1 <- ggplot(TrainingData2, aes(x=rides, y=..density..)) +
   geom_histogram(binwidth=500, fill="lightblue", colour="grey60", size=0.2) +
   geom_line(stat="density", colour="red") +
   xlim(-0,20000) +
-  xlab("Number of L Rides") + 
+  xlab("Number of El Rides") + 
   ylab("Density") + 
-  ggtitle(expression(atop("Variation in L Rides")))
+  ggtitle(expression(atop("Variation in El Rides")))
 
 
 ggQQ <- function(TrainingData2) # argument: a linear model
@@ -406,7 +406,7 @@ ggQQ <- function(TrainingData2) # argument: a linear model
   p     <- ggplot(TrainingData2, aes(sample=rides)) + 
            stat_qq(alpha = 0.5) +
            geom_abline(slope = slope, intercept = int, color="red") + 
-           ggtitle(expression(atop("QQ Plot for L Rides")))
+           ggtitle(expression(atop("QQ Plot for El Rides")))
   
   return(p)
 }
